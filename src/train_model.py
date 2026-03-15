@@ -4,7 +4,15 @@ from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 from preprocess_data import load_data, create_preprocessing_pipeline
+from sklearn.metrics import confusion_matrix
+import numpy as np
+import logging
 
+logging.basicConfig(
+    filename="training_log.txt",
+    level=logging.INFO,
+    format="%(asctime)s - %(message)s"
+)
 
 def train_model(filepath):
 
@@ -56,18 +64,23 @@ def train_model(filepath):
         scoring="accuracy"
     )
 
-    print("Cross-validation scores:", cv_scores)
-    print("Mean c-v score:", cv_scores.mean())
+    logging.info(f"Cross-validation scores: {cv_scores}")
+    logging.info(f"Mean c-v score: {cv_scores.mean()}")
     ##########################################
 
     # Train model on full training set (Churn4500.csv)
     pipeline.fit(X_train, y_train)
 
     # Predictions
-    y_pred = pipeline.predict(X_test)
+    # y_pred = pipeline.predict(X_test)
+    threshold = 0.30
+    y_probs = pipeline.predict_proba(X_test)[:, 1]
+    y_pred = np.where(y_probs >= threshold, "Yes", "No")
 
     # Evaluation
-    print("Accuracy:", accuracy_score(y_test, y_pred))
-    print(classification_report(y_test, y_pred))
+    logging.info(f"Accuracy: {accuracy_score(y_test, y_pred)}")
+    logging.info(classification_report(y_test, y_pred))
 
     return pipeline
+
+# train_model("../data/Churn4500.csv")

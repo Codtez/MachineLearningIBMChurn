@@ -28,5 +28,5 @@ def inspect_dataset(path):
     print(df.head())
 
 
-#inspect_dataset("../data/Churn4500.csv")
-inspect_dataset("../data/Churn2500.csv")
+# inspect_dataset("../data/Churn4500.csv")
+# inspect_dataset("../data/Churn2500.csv")
