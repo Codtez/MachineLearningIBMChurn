@@ -14,6 +14,7 @@ logging.basicConfig(
     format="%(asctime)s - %(message)s"
 )
 
+
 def train_model(filepath):
 
     # Load dataset
@@ -84,3 +85,50 @@ def train_model(filepath):
     return pipeline
 
 # train_model("../data/Churn4500.csv")
+
+
+def train_model_simple(filepath):
+
+    # Load dataset
+    df = load_data(filepath)
+
+    # Separate features and target
+    X = df.drop(columns=["Churn"])
+    y = df["Churn"]
+
+    # Train/test split
+    X_train, X_test, y_train, y_test = train_test_split(
+        X,
+        y,
+        test_size=0.2,
+        stratify=y,
+        random_state=1111
+    )
+
+    # Create preprocessing pipeline
+    preprocessor = create_preprocessing_pipeline()
+
+    # Create model
+    model = RandomForestClassifier(
+        n_estimators=100,
+        random_state=1111
+    )
+
+    # Combine preprocessing + model
+    pipeline = Pipeline(
+        steps=[
+            ("preprocessor", preprocessor),
+            ("model", model)
+        ]
+    )
+
+    # Train model on full training set (Churn4500.csv)
+    pipeline.fit(X_train, y_train)
+
+    # Predictions
+    # y_pred = pipeline.predict(X_test)
+    threshold = 0.30
+    y_probs = pipeline.predict_proba(X_test)[:, 1]
+    y_pred = np.where(y_probs >= threshold, "Yes", "No")
+
+    return pipeline
