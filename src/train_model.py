@@ -7,6 +7,8 @@ from preprocess_data import load_data, create_preprocessing_pipeline
 from sklearn.metrics import confusion_matrix
 import numpy as np
 import logging
+from sklearn.metrics import roc_auc_score
+from model_config import BEST_PARAMS
 
 logging.basicConfig(
     filename="training_log.txt",
@@ -37,10 +39,7 @@ def train_model(filepath):
     preprocessor = create_preprocessing_pipeline()
 
     # Create model
-    model = RandomForestClassifier(
-        n_estimators=100,
-        random_state=1111
-    )
+    model = RandomForestClassifier(**BEST_PARAMS)
 
     # Combine preprocessing + model
     pipeline = Pipeline(
@@ -74,7 +73,7 @@ def train_model(filepath):
 
     # Predictions
     # y_pred = pipeline.predict(X_test)
-    threshold = 0.30
+    threshold = 0.42
     y_probs = pipeline.predict_proba(X_test)[:, 1]
     y_pred = np.where(y_probs >= threshold, "Yes", "No")
 
@@ -109,10 +108,7 @@ def train_model_simple(filepath):
     preprocessor = create_preprocessing_pipeline()
 
     # Create model
-    model = RandomForestClassifier(
-        n_estimators=100,
-        random_state=1111
-    )
+    model = RandomForestClassifier(**BEST_PARAMS)
 
     # Combine preprocessing + model
     pipeline = Pipeline(
@@ -129,6 +125,11 @@ def train_model_simple(filepath):
     # y_pred = pipeline.predict(X_test)
     threshold = 0.30
     y_probs = pipeline.predict_proba(X_test)[:, 1]
+    # ROC-AUC (baseline model performance)
+    # roc_auc = roc_auc_score(y_test, y_probs)
+    # print("ROC-AUC (baseline):", roc_auc)
     y_pred = np.where(y_probs >= threshold, "Yes", "No")
 
     return pipeline
+
+# train_model_simple("../data/Churn4500.csv")
