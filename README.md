@@ -1,18 +1,24 @@
-Current files 3/15:
+Finished project on 3/29/26.
 
-src/inspect_data.py >> Check data/columns for Python nuances before preprocessing.
+Results on 2500 unseen set:
+ROC-AUC: 0.8343790386703789
+              precision    recall  f1-score   support
 
-src/preprocess_data.py >> For encoding data for ML pipeline and loading CSV without unnecessary/error columns.
+          No       0.89      0.75      0.81      1851
+         Yes       0.53      0.76      0.63       691
 
-src/train_model.py >> Functions to log and return pipeline after training model and evaluate consistency using cross validation.
+    accuracy                           0.75      2542
+   macro avg       0.71      0.76      0.72      2542
+weighted avg       0.80      0.75      0.76      2542
 
-src/interpret_model.py >> Reports and plots drivers of churn using feature importance.
-
-data/Churn4500.csv >> Training data on ~4500 client churn data rows
-
-data/Churn2500.csv >> Testing data on ~2500 client churn data rows
-
-data/ChurnDriversChart_3-15.png >> 
+Business Translation:
+Out of 2542 customers:
+      You would target for outreach: ~991 customers (~39%)
+            Of those: ~525 will actually churn
+            ~466 are false alarms
+      You miss:
+      ~166 churners (~76% caught)
+Judgement: Model is tuned and suitable for low-cost outreach.
 
 Top 3 Churn Drivers:
 
