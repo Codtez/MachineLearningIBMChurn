@@ -2,8 +2,8 @@ Finished project on 3/29/26.
 
 Results on 2500 unseen set:
 ROC-AUC: 0.8343790386703789
+              
               precision    recall  f1-score   support
-
           No       0.89      0.75      0.81      1851
          Yes       0.53      0.76      0.63       691
 
