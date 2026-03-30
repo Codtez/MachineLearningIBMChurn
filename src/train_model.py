@@ -17,6 +17,33 @@ logging.basicConfig(
 )
 
 
+def train_full_model(filepath):
+
+    # Load dataset
+    df = load_data(filepath)
+
+    # Features / target
+    X = df.drop(columns=["Churn"])
+    y = df["Churn"]
+
+    # Preprocessing
+    preprocessor = create_preprocessing_pipeline()
+
+    # Model with best params
+    model = RandomForestClassifier(**BEST_PARAMS)
+
+    # Pipeline
+    pipeline = Pipeline([
+        ("preprocessor", preprocessor),
+        ("model", model)
+    ])
+
+    # Train with no split/testing
+    pipeline.fit(X, y)
+
+    return pipeline
+
+
 def train_model(filepath):
 
     # Load dataset
