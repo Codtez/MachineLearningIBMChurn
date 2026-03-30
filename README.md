@@ -6,10 +6,10 @@ ROC-AUC: 0.8343790386703789
               precision    recall  f1-score   support
           No       0.89      0.75      0.81      1851
          Yes       0.53      0.76      0.63       691
-
     accuracy                           0.75      2542
    macro avg       0.71      0.76      0.72      2542
 weighted avg       0.80      0.75      0.76      2542
+
 
 Business Translation:
 Out of 2542 customers:
